@@ -1,0 +1,32 @@
+body{
+	background: #EFF;
+
+}
+.button{
+	background: none;
+    border: thin solid #0077B3;
+    height: 53px;
+    width: 184px;
+    position: absolute;
+    left: 30%;
+    color: #0077B3;
+}
+
+.login{
+	left: 50%;
+}
+
+.block{
+}
+
+#sign-up-box{
+	background: #FFF; 
+	display: none;
+	height: 500px;
+	width: 450px;
+	position: fixed;
+	left: 30%;
+	top: 15%;
+	border-radius: 2px;
+
+}
