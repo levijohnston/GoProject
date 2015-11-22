@@ -22,11 +22,44 @@ body{
 #sign-up-box{
 	background: #FFF; 
 	display: none;
-	height: 500px;
+	height: 382px;
 	width: 450px;
 	position: fixed;
 	left: 30%;
 	top: 15%;
 	border-radius: 2px;
+}
 
+#sign-up-box > .pull-right{
+  font-size: 20px;
+  margin-right: 15px;
+  position: relative;
+  float: right;
+  margin-top: 15px;
+  font-family: helvetica;
+  font-weight: 100;
+
+}
+#sign-up-box > .title{
+  position: absolute;
+  margin-left: 154px;
+  font-size: 30px;
+  margin-top: 16px;
+  font-weight: 100;
+}
+
+.form{
+  position: relative;
+  margin-left: 110px;
+  margin-top: 70px;
+}
+
+.form input[type=submit]{
+  width: 220px;
+  background: #0088CC;
+  border: #0088CC;
+  border-radius: 2px;
+  height: 39px;
+  margin-top: 30px;
+  color: white;
 }
