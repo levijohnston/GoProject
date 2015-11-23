@@ -1,9 +1,6 @@
 package app
 
-import ("github.com/revel/revel"
-				_ "github.com/lib/pq"
-    		"database/sql"
-    		)
+import "github.com/revel/revel"
 
 func init() {
 	// Filters is the default set of global filters.
@@ -21,16 +18,8 @@ func init() {
 		revel.CompressFilter,          // Compress the result.
 		revel.ActionInvoker,           // Invoke the action.
 	}
-
-	// register startup functions with OnAppStart
-	// ( order dependent )
-	// revel.OnAppStart(InitDB)
-	// revel.OnAppStart(FillCache)
 }
 
-// TODO turn this into revel.HeaderFilter
-// should probably also have a filter for CSRF
-// not sure if it can go in the same filter or not
 var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 	// Add some common security headers
 	c.Response.Out.Header().Add("X-Frame-Options", "SAMEORIGIN")
@@ -38,28 +27,4 @@ var HeaderFilter = func(c *revel.Controller, fc []revel.Filter) {
 	c.Response.Out.Header().Add("X-Content-Type-Options", "nosniff")
 
 	fc[0](c, fc[1:]) // Execute the next filter stage.
-}
-
-var DB *sql.DB
-
-func InitDB() {
-    connstring := fmt.Sprintf("user=%s password='%s' dbname=%s sslmode=disable", "user", "pass", "database")
-
-    var err error
-    DB, err = sql.Open("postgres", connstring)
-    if err != nil {
-        revel.INFO.Println("DB Error", err)
-    }
-    revel.INFO.Println("DB Connected")
-}
-
-func init() {
-
-    revel.Filters = []revel.Filter{
-        revel.PanicFilter,             // Recover from panics and display an error page instead.
-        revel.CompressFilter,          // Compress the result.
-        revel.ActionInvoker,           // Invoke the action.
-    }
-    
-    revel.OnAppStart(InitDB)
 }
