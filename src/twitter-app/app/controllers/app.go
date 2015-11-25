@@ -84,16 +84,21 @@ func (c App) Register() revel.Result {
 }
 
 func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
+ // fmt.Println("Save user")
   c.Validation.Required(verifyPassword)
   c.Validation.Required(verifyPassword == user.Password).
     Message("Password does not match")
   user.Validate(c.Validation)
+  //fmt.Println("User 1 ")
 
   if c.Validation.HasErrors() {
+      fmt.Println("User errors ")
+
     c.Validation.Keep()
     c.FlashParams()
-    return c.Redirect(routes.App.Show(user.UserId))
+    return c.Redirect(routes.App.Index())
   }
+  //fmt.Println("User 2 ")
 
   user.HashedPassword, _ = bcrypt.GenerateFromPassword(
     []byte(user.Password), bcrypt.DefaultCost)
@@ -101,10 +106,12 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
   if err != nil {
     panic(err)
   }
+  //fmt.Println("User 3 ")
 
   c.Session["user"] = user.Username
   c.Flash.Success("Welcome, " + user.Name)
-  fmt.Println("User  %d", user.UserId)
+  //fmt.Println("User", user.Name)
+  //return c.RenderJson(user)
   return c.Redirect(routes.App.Show(user.UserId))
 }
 
@@ -126,13 +133,23 @@ func (c App) Login(username, password string, remember bool) revel.Result {
 
   c.Flash.Out["username"] = username
   c.Flash.Error("Login failed")
-  return c.Redirect("http://google.com")
+  return c.Redirect(routes.App.Show(user.UserId))
 }
 
 func (c App) Logout() revel.Result {
   for k := range c.Session {
     delete(c.Session, k)
   }
-  return c.Redirect("http://google.com")
+  return c.Redirect(routes.App.Index())
 }
 
+
+func (c App) SavePost(post models.Post) revel.Result {
+
+  err := c.Txn.Insert(&post)
+  if err != nil {
+    panic(err)
+  }
+  post.User = c.connected()
+  return c.Redirect(routes.App.Index())
+}

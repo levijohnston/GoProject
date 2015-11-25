@@ -1,3 +1,37 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
 
 
-WELCOME NEW USER!
+<header class="hero-unit" style="background-color:#0088CC">
+  <div class="container">
+    <div class="row">
+      <div class="hero-text">
+        <h1>Welcome {{.user.Username}}!</h1>
+        <p></p>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+New Post
+<form action="{{url "App.SavePost"}}" method="POST">
+  {{with $field := field "post.Message" .}}
+    <p>
+      <strong>Body:</strong>
+      <input type="text" name="{{$field.Name}}" size="160" value="{{$field.Flash}}"> *
+    </p>
+  {{end}}
+  <p class="buttons">
+    <input type="submit" value="Submit" name="Submit">
+  </p>
+</form>
+
+<div>
+  
+
+{{.post.Message}}
+
+</div>
+
+{{template "footer.html" .}}

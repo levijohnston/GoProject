@@ -40,15 +40,14 @@ func InitDB() {
         "Country": 40,
     })*/
 
-   /* t = Dbm.AddTable(models.Booking{}).SetKeys(true, "BookingId")
+   t = Dbm.AddTable(models.Post{}).SetKeys(true, "PostId")
     t.ColMap("User").Transient = true
-    t.ColMap("Hotel").Transient = true
-    t.ColMap("CheckInDate").Transient = true
-    t.ColMap("CheckOutDate").Transient = true
+    //t.ColMap("Hotel").Transient = true
+    //t.ColMap("CheckInDate").Transient = true
+    //t.ColMap("CheckOutDate").Transient = true
     setColumnSizes(t, map[string]int{
-        "CardNumber": 16,
-        "NameOnCard": 50,
-    })*/
+        "Message": 160,
+    })
 
     Dbm.TraceOn("[gorp]", r.INFO)
     Dbm.CreateTables()
