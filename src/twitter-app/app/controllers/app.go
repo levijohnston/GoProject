@@ -75,7 +75,23 @@ func (c App) Show(id int) revel.Result {
     return c.NotFound("User %d does not exist", id)
   }
   title := user.Name
-  return c.Render(title, user)
+
+
+  results, err := c.Txn.Select(models.Post{}, `select * from Post where UserId = ?`, c.connected().UserId)
+
+  if err != nil {
+    panic(err)
+  }
+
+  var posts []*models.Post
+  for _, r := range results {
+    b := r.(*models.Post)
+    posts = append(posts, b)
+    fmt.Println("Getting %d ", b.Message)
+
+  }
+
+  return c.Render(title, user, posts)
 }
 
 
@@ -145,11 +161,17 @@ func (c App) Logout() revel.Result {
 
 
 func (c App) SavePost(post models.Post) revel.Result {
+  
+  post.User = c.connected()
+  post.UserId = 2
+  user := post.User
+  fmt.Println("Inserted into ID %d ",&post)
+  fmt.Println("Post user = %d ",post.User)
 
   err := c.Txn.Insert(&post)
+
   if err != nil {
     panic(err)
-  }
-  post.User = c.connected()
-  return c.Redirect(routes.App.Index())
+  } 
+  return c.Redirect(routes.App.Show(user.UserId))
 }

@@ -29,8 +29,13 @@ New Post
 
 <div>
   
+{{range .posts}}
 
-{{.post.Message}}
+  <div class="post">{{.Message}}</div>
+{{end}}
+
+  {{.post.Message}}
+
 
 </div>
 
