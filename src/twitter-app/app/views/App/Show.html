@@ -18,8 +18,7 @@ New Post
 <form action="{{url "App.SavePost"}}" method="POST">
   {{with $field := field "post.Message" .}}
     <p>
-      <strong>Body:</strong>
-      <input type="text" name="{{$field.Name}}" size="160" value="{{$field.Flash}}"> *
+      <textarea name="{{$field.Name}}" size="160" value="{{$field.Flash}}"> </textarea>
     </p>
   {{end}}
   <p class="buttons">
@@ -30,8 +29,10 @@ New Post
 <div>
   
 {{range .posts}}
-
-  <div class="post">{{.Message}}</div>
+  <div class="post">
+    <div class="message">{{.Message}}</div>
+    <div class="date"> {{.Date.Month}} {{.Date.Day}} {{.Date.Year}}</div>
+  </div>
 {{end}}
 
   {{.post.Message}}

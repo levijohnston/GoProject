@@ -47,6 +47,8 @@ func InitDB() {
     //t.ColMap("CheckOutDate").Transient = true
     setColumnSizes(t, map[string]int{
         "Message": 160,
+        "Date": 10,
+        "Likes": 20,
     })
 
     Dbm.TraceOn("[gorp]", r.INFO)

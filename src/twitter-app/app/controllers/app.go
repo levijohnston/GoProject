@@ -6,6 +6,7 @@ import (
   "twitter-app/app/models"
   "twitter-app/app/routes"
   "fmt"
+  "time"
 )
 
 type App struct {
@@ -88,7 +89,6 @@ func (c App) Show(id int) revel.Result {
     b := r.(*models.Post)
     posts = append(posts, b)
     fmt.Println("Getting %d ", b.Message)
-
   }
 
   return c.Render(title, user, posts)
@@ -164,6 +164,7 @@ func (c App) SavePost(post models.Post) revel.Result {
   
   post.User = c.connected()
   post.UserId = 2
+  post.Date = time.Now()
   user := post.User
   fmt.Println("Inserted into ID %d ",&post)
   fmt.Println("Post user = %d ",post.User)

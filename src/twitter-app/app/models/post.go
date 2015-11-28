@@ -3,11 +3,14 @@ package models
 import (
   "fmt"
   "github.com/revel/revel"
+  "time"
 )
 
 type Post struct {
   PostId          int
   Message         string
+  Date            time.Time
+  Likes           int
   UserId          int
   User            *User
 }
