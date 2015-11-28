@@ -1,7 +1,7 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
 
-
+<a href="{{url "App.Logout"}}">Logout</a>
 <header class="hero-unit" style="background-color:#0088CC">
   <div class="container">
     <div class="row">
@@ -13,31 +13,30 @@
   </div>
 </header>
 
-
-New Post
-<form action="{{url "App.SavePost"}}" method="POST">
-  {{with $field := field "post.Message" .}}
-    <p>
-      <textarea name="{{$field.Name}}" size="160" value="{{$field.Flash}}"> </textarea>
+<div class="main">
+  <form action="{{url "App.SavePost"}}" method="POST">
+    {{with $field := field "post.Message" .}}
+      <p class="post-field">
+        <textarea placeholder="Submit a new post" name="{{$field.Name}}" size="160" value="{{$field.Flash}}"> </textarea>
+      </p>
+    {{end}}
+    <p class="buttons">
+      <input type="submit" value="Submit" name="Submit">
     </p>
-  {{end}}
-  <p class="buttons">
-    <input type="submit" value="Submit" name="Submit">
-  </p>
-</form>
+  </form>
 
-<div>
-  
-{{range .posts}}
-  <div class="post">
-    <div class="message">{{.Message}}</div>
-    <div class="date"> {{.Date.Month}} {{.Date.Day}} {{.Date.Year}}</div>
-  </div>
-{{end}}
+  <ul class="post-list">
+  {{range .posts}}
+    <li class="post">
+      <div class="message">{{.Message}}</div>
+      <div class="date"> {{.Date.Month}} {{.Date.Day}} {{.Date.Year}}</div>
+    </li>
+  {{end}}
+  </ul>
+</div>
 
   {{.post.Message}}
 
 
-</div>
 
 {{template "footer.html" .}}

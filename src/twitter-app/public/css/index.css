@@ -2,14 +2,15 @@ body{
 	background: #EFF;
 
 }
+
 .button{
 	background: none;
-    border: thin solid #0077B3;
-    height: 53px;
-    width: 184px;
-    position: absolute;
-    left: 30%;
-    color: #0077B3;
+  border: thin solid #0077B3;
+  height: 53px;
+  width: 184px;
+  position: absolute;
+  left: 30%;
+  color: #0077B3;
 }
 
 .login{
@@ -19,7 +20,7 @@ body{
 .block{
 }
 
-#sign-up-box{
+#sign-up-box, #log-in-box{
 	background: #FFF; 
 	display: none;
 	height: 382px;
@@ -28,9 +29,11 @@ body{
 	left: 30%;
 	top: 15%;
 	border-radius: 2px;
+  border: thin solid #eee;
+
 }
 
-#sign-up-box > .pull-right{
+.pull-right{
   font-size: 20px;
   margin-right: 15px;
   position: relative;
@@ -48,10 +51,30 @@ body{
   font-weight: 100;
 }
 
-.form{
-  position: relative;
-  margin-left: 110px;
+#log-in-box > .title{
+  position: absolute;
+  margin-left: 185px;
+  font-size: 30px;
+  margin-top: 16px;
+  font-weight: 100;
+}
+
+#log-in-box > .form{
+  margin-left: 58px;
   margin-top: 70px;
+}
+
+#sign-up-box > .form{
+  margin-left: 58px;
+  margin-top: 70px;
+}
+
+#log-in-box .submit{
+  margin-left: 58px;
+}
+
+#log-in-box strong{
+  padding-right: 10px;
 }
 
 .form input[type=submit]{

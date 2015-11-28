@@ -50,6 +50,7 @@ func (c App) Index() revel.Result {
 }
 
 
+
 /*func (c App) Show() revel.Result {
   if c.connected() != nil {
     return c.Redirect(routes.App.Show())
@@ -78,7 +79,7 @@ func (c App) Show(id int) revel.Result {
   title := user.Name
 
 
-  results, err := c.Txn.Select(models.Post{}, `select * from Post where UserId = ?`, c.connected().UserId)
+  results, err := c.Txn.Select(models.Post{}, `select * from Post where UserId = ? ORDER BY PostId DESC `, c.connected().UserId)
 
   if err != nil {
     panic(err)
@@ -88,7 +89,7 @@ func (c App) Show(id int) revel.Result {
   for _, r := range results {
     b := r.(*models.Post)
     posts = append(posts, b)
-    fmt.Println("Getting %d ", b.Message)
+    fmt.Println("Getting ", b.Message, "ID= ", b.PostId)
   }
 
   return c.Render(title, user, posts)
@@ -143,13 +144,13 @@ func (c App) Login(username, password string, remember bool) revel.Result {
         c.Session.SetNoExpiration()
       }
       c.Flash.Success("Welcome, " + username)
-      return c.Redirect("http://google.com")
+      return c.Redirect(routes.App.Show(user.UserId))
     }
   }
 
   c.Flash.Out["username"] = username
   c.Flash.Error("Login failed")
-  return c.Redirect(routes.App.Show(user.UserId))
+  return c.Redirect(routes.App.Index())
 }
 
 func (c App) Logout() revel.Result {
@@ -163,9 +164,11 @@ func (c App) Logout() revel.Result {
 func (c App) SavePost(post models.Post) revel.Result {
   
   post.User = c.connected()
-  post.UserId = 2
-  post.Date = time.Now()
   user := post.User
+
+  fmt.Println("Connected to ", user.UserId)
+  post.UserId = user.UserId
+  post.Date = time.Now()
   fmt.Println("Inserted into ID %d ",&post)
   fmt.Println("Post user = %d ",post.User)
 

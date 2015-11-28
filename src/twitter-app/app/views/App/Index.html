@@ -2,7 +2,7 @@
 {{template "header.html" .}}
 
 <header class="hero-unit" style="background-color:#0088CC">
-  <div class="container">
+  <div>
     <div class="row">
       <div class="hero-text">
         <h1>Social</h1>
@@ -14,53 +14,73 @@
 
 <div class="block">
   <button class="button" id="sign-up">Sign up</button>
-  <button class="button login">Log In</button>
+  <button class="button login" id="log-in">Log In</button>
 </div>
+
 <div class="container" id="sign-up-box">
-  <div class='title'>Join Social </div>
+  <div class='title'>Join Social</div>
   <div class='pull-right close'>X</div>
   <div class='form'>
-   <!-- <form action="/users/Hello" method="GET">
-      <input type="text" id="full-name" name="Full Name" placeholder="Full Name"><br>
-      <input type="text" id="username" name="Username" placeholder="Username"><br>
-      <input type="text" id="email" name="Email" placeholder="Email"><br>
-      <input type="text" id="Password" name="Password" placeholder="Password"><br>
-      <input type="submit" value="Sign Up"/>
- </form> !-->
-      <form action="{{url "App.SaveUser"}}" method="POST">
-        {{with $field := field "user.Username" .}}
-          <p class="{{$field.ErrorClass}}">
-            <strong>Username:</strong>
-            <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
-            <span class="error">{{$field.Error}}</span>
-          </p>
-        {{end}}
-        {{with $field := field "user.Name" .}}
-          <p class="{{$field.ErrorClass}}">
-            <strong>Real name:</strong> <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
-            <span class="error">{{$field.Error}}</span>
-          </p>
-        {{end}}
-        {{with $field := field "user.Password" .}}
-          <p class="{{$field.ErrorClass}}">
-            <strong>Password:</strong> <input type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
-            <span class="error">{{$field.Error}}</span>
-          </p>
-        {{end}}
-        {{with $field := field "verifyPassword" .}}
-          <p class="{{$field.ErrorClass}}">
-            <strong>Verify password:</strong> <input type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
-            <span class="error">{{$field.Error}}</span>
-          </p>
-        {{end}}
-        <p class="buttons">
-          <input type="submit" value="Sign Up"> <a href="{{url "App.Show"}}">Cancel</a>
+    <form action="{{url "App.SaveUser"}}" method="POST">
+      {{with $field := field "user.Username" .}}
+        <p class="{{$field.ErrorClass}}">
+          <strong>Username:</strong>
+          <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+          <span class="error">{{$field.Error}}</span>
         </p>
-      </form>
-   
+      {{end}}
+      {{with $field := field "user.Name" .}}
+        <p class="{{$field.ErrorClass}}">
+          <strong>Real name:</strong> <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+          <span class="error">{{$field.Error}}</span>
+        </p>
+      {{end}}
+      {{with $field := field "user.Password" .}}
+        <p class="{{$field.ErrorClass}}">
+          <strong>Password:</strong> <input type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+          <span class="error">{{$field.Error}}</span>
+        </p>
+      {{end}}
+      {{with $field := field "verifyPassword" .}}
+        <p class="{{$field.ErrorClass}}">
+          <strong>Verify password:</strong> <input type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> *
+          <span class="error">{{$field.Error}}</span>
+        </p>
+      {{end}}
+      <div class="submit">
+        <input type="submit" value="Sign Up">
+      </div>
+    </form>
   </div>
 </div>
-<div class="container">
+
+<div class="container" id="log-in-box">
+  <div class='title'>Log In</div>
+  <div class='pull-right close'>X</div>
+  <div class='form'>
+    <form action="{{url "App.Login"}}" method="POST">
+      {{with $field := field "user.Username" .}}
+        <p class="{{$field.ErrorClass}}">
+          <strong>Username:</strong>
+          <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> 
+          <span class="error">{{$field.Error}}</span>
+        </p>
+      {{end}}
+      {{with $field := field "user.Password" .}}
+        <p class="{{$field.ErrorClass}}">
+          <strong>Password:</strong> <input type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}">
+          <span class="error">{{$field.Error}}</span>
+        </p>
+      {{end}}
+      <div class="submit">
+        <input type="submit" value="Log in">
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div>
   <div class="row">
     <div class="span6">
       {{template "flash.html" .}}

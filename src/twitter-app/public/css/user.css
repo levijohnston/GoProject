@@ -1,26 +1,43 @@
-form{   
-    position: relative;
-    left: 28%;
+.main{
+  width: 600px;
+  position: absolute;
+  left: 28%;
 }
-textarea{
+.main form{   
+  position: relative;
+  padding-left: 70px;
+  border: thin solid #eee;
+  margin: 0px;
+  background: #FFF;
+}
+.post-field{
+  padding: 25px;
+}
+.main textarea{
   width: 393px;
   font-size: 16px;
   height: 100px;
-   resize: none;
+  resize: none;
+}
+.post-list{
+  position: relative;
+  height: 700px;
+  margin: 0px;
 }
 .post{
-  width: 400px;
-  height: 20px;
   position: relative;
-  left: 30%;
-   border-bottom: thin solid; 
-  padding-top: 40px;
-  padding-bottom: 40px;
+  overflow: hidden;
+  border-bottom: thin solid #eee;
+  border-left: thin solid #eee;
+  border-right: thin solid #eee;
+  padding: 40px;
+  background: #FFF;
 }
 .message{
   display: inline-block;
   float: left;
   font-size: 20px;
+  position: relative;
 }
 .date{
   display: inline-block;
@@ -29,4 +46,13 @@ textarea{
   position: absolute;
   right: 10px;
   top: 5px;
+}
+.buttons input{
+  background: #0077B3;
+  border: thin solid #0077B3;
+  height: 36px;
+  width: 160px;
+  color: #FFF;
+  border-radius: 4px;
+  margin-left: 145px;
 }
