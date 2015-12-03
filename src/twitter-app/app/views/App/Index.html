@@ -59,27 +59,20 @@
   <div class='pull-right close'>X</div>
   <div class='form'>
     <form action="{{url "App.Login"}}" method="POST">
-      {{with $field := field "user.Username" .}}
-        <p class="{{$field.ErrorClass}}">
+        <p class="field">
           <strong>Username:</strong>
-          <input type="text" name="{{$field.Name}}" size="16" value="{{$field.Flash}}"> 
-          <span class="error">{{$field.Error}}</span>
+          <input type="text" name="username" size="19" value="{{.flash.username}}" />
         </p>
-      {{end}}
-      {{with $field := field "user.Password" .}}
-        <p class="{{$field.ErrorClass}}">
-          <strong>Password:</strong> <input type="password" name="{{$field.Name}}" size="16" value="{{$field.Flash}}">
-          <span class="error">{{$field.Error}}</span>
+        <p class="field">
+          <strong>Password:</strong>
+          <input type="password" name="password" size="19"/>
         </p>
-      {{end}}
       <div class="submit">
         <input type="submit" value="Log in">
       </div>
     </form>
   </div>
 </div>
-
-
 <div>
   <div class="row">
     <div class="span6">

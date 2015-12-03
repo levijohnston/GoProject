@@ -20,6 +20,14 @@ func (c App) AddUser() revel.Result {
   return nil
 }
 
+func (c App) checkUser() revel.Result {
+  if user := c.connected(); user == nil {
+    c.Flash.Error("Please log in first")
+    return c.Redirect(routes.App.Index())
+  }
+  return nil
+}
+
 func (c App) connected() *models.User {
   if c.RenderArgs["user"] != nil {
     return c.RenderArgs["user"].(*models.User)
@@ -49,16 +57,6 @@ func (c App) Index() revel.Result {
   return c.Render()
 }
 
-
-
-/*func (c App) Show() revel.Result {
-  if c.connected() != nil {
-    return c.Redirect(routes.App.Show())
-  }
-  c.Flash.Error("Please log in first")
-  return c.Render()
-}*/
-
 func (c App) loadUserById(id int) *models.User {
   h, err := c.Txn.Get(models.User{}, id)
   if err != nil {
@@ -77,8 +75,6 @@ func (c App) Show(id int) revel.Result {
     return c.NotFound("User %d does not exist", id)
   }
   title := user.Name
-
-
   results, err := c.Txn.Select(models.Post{}, `select * from Post where UserId = ? ORDER BY PostId DESC `, c.connected().UserId)
 
   if err != nil {
@@ -101,12 +97,11 @@ func (c App) Register() revel.Result {
 }
 
 func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
- // fmt.Println("Save user")
+
   c.Validation.Required(verifyPassword)
   c.Validation.Required(verifyPassword == user.Password).
     Message("Password does not match")
   user.Validate(c.Validation)
-  //fmt.Println("User 1 ")
 
   if c.Validation.HasErrors() {
       fmt.Println("User errors ")
@@ -115,7 +110,6 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
     c.FlashParams()
     return c.Redirect(routes.App.Index())
   }
-  //fmt.Println("User 2 ")
 
   user.HashedPassword, _ = bcrypt.GenerateFromPassword(
     []byte(user.Password), bcrypt.DefaultCost)
@@ -123,17 +117,16 @@ func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
   if err != nil {
     panic(err)
   }
-  //fmt.Println("User 3 ")
 
   c.Session["user"] = user.Username
   c.Flash.Success("Welcome, " + user.Name)
-  //fmt.Println("User", user.Name)
-  //return c.RenderJson(user)
   return c.Redirect(routes.App.Show(user.UserId))
 }
 
 func (c App) Login(username, password string, remember bool) revel.Result {
+  fmt.Println("Input: ", username)
   user := c.getUser(username)
+  fmt.Println("User: ", user)
   if user != nil {
     err := bcrypt.CompareHashAndPassword(user.HashedPassword, []byte(password))
     if err == nil {
@@ -149,7 +142,7 @@ func (c App) Login(username, password string, remember bool) revel.Result {
   }
 
   c.Flash.Out["username"] = username
-  c.Flash.Error("Login failed")
+  c.Flash.Error("Invalid username and password")
   return c.Redirect(routes.App.Index())
 }
 
@@ -165,8 +158,6 @@ func (c App) SavePost(post models.Post) revel.Result {
   
   post.User = c.connected()
   user := post.User
-
-  fmt.Println("Connected to ", user.UserId)
   post.UserId = user.UserId
   post.Date = time.Now()
   fmt.Println("Inserted into ID %d ",&post)
