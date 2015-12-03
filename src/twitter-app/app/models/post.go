@@ -23,15 +23,3 @@ func (post Post) Validate(v *revel.Validation) {
  // v.Required(post.User)
 }
 
-/*func (c Post) loadPostById(id int) *models.Post {
-  h, err := c.Txn.Get(models.Post{}, id)
-  if err != nil {
-    panic(err)
-  }
-  if h == nil {
-    return nil
-  }
-  return h.(*models.Post)
-}
-*/
-

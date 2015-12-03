@@ -96,10 +96,10 @@ func (c App) Register() revel.Result {
   return c.Render()
 }
 
-func (c App) SaveUser(user models.User, verifyPassword string) revel.Result {
+func (c App) SaveUser(user models.User, passwordConfirmation string) revel.Result {
 
-  c.Validation.Required(verifyPassword)
-  c.Validation.Required(verifyPassword == user.Password).
+  c.Validation.Required(passwordConfirmation)
+  c.Validation.Required(passwordConfirmation == user.Password).
     Message("Password does not match")
   user.Validate(c.Validation)
 
