@@ -6,10 +6,11 @@ import (
   "twitter-app/app/models"
   "twitter-app/app/routes"
   "fmt"
-  "time"
+  //"time"
 )
 
 type App struct {
+  *revel.Controller
   GorpController
 }
 
@@ -51,9 +52,25 @@ func (c App) getUser(username string) *models.User {
 
 func (c App) Index() revel.Result {
   if c.connected() != nil {
-    return c.Redirect(routes.App.Index())
+    query := "SELECT p.* " +
+    "FROM Post p, Friend f " +
+    "WHERE f.UserIdTwo = ? OR f.UserIdOne = ? " +
+    "AND p.UserId = f.UserIdOne OR p.UserId = f.UserIdTwo " +
+    "ORDER BY PostId DESC"
+    results, err := c.Txn.Select(models.Post{}, query, c.connected().UserId, c.connected().UserId)
+    fmt.Println("Connect user = ", c.connected().UserId,)
+
+    if err != nil {
+        panic(err)
+    }
+
+    var posts []*models.Post
+    for _, r := range results {
+      b := r.(*models.Post)
+      posts = append(posts, b)
+    }
+    return c.Render(posts)
   }
-  c.Flash.Error("Please log in first")
   return c.Render()
 }
 
@@ -76,6 +93,10 @@ func (c App) Show(id int) revel.Result {
   }
   title := user.Name
   results, err := c.Txn.Select(models.Post{}, `select * from Post where UserId = ? ORDER BY PostId DESC `, c.connected().UserId)
+  post1, err := c.Txn.Select(models.Post{}, `select * from Post where PostId = 1`)
+
+  fmt.Println("Post user = ", post1)
+  //post1.String()
 
   if err != nil {
     panic(err)
@@ -85,7 +106,7 @@ func (c App) Show(id int) revel.Result {
   for _, r := range results {
     b := r.(*models.Post)
     posts = append(posts, b)
-    fmt.Println("Getting ", b.Message, "ID= ", b.PostId)
+    fmt.Println("Post user = ", b.User)
   }
 
   return c.Render(title, user, posts)
@@ -127,6 +148,18 @@ func (c App) Login(username, password string, remember bool) revel.Result {
   fmt.Println("Input: ", username)
   user := c.getUser(username)
   fmt.Println("User: ", user)
+
+  users, _ := c.Txn.Select(models.User{}, `select * from User`)
+
+
+
+for _, r := range users {
+    b := r.(*models.User)
+    //posts = append(posts, b)
+    fmt.Println("Getting ", b.Username)
+  }
+
+
   if user != nil {
     err := bcrypt.CompareHashAndPassword(user.HashedPassword, []byte(password))
     if err == nil {
@@ -153,20 +186,3 @@ func (c App) Logout() revel.Result {
   return c.Redirect(routes.App.Index())
 }
 
-
-func (c App) SavePost(post models.Post) revel.Result {
-  
-  post.User = c.connected()
-  user := post.User
-  post.UserId = user.UserId
-  post.Date = time.Now()
-  fmt.Println("Inserted into ID %d ",&post)
-  fmt.Println("Post user = %d ",post.User)
-
-  err := c.Txn.Insert(&post)
-
-  if err != nil {
-    panic(err)
-  } 
-  return c.Redirect(routes.App.Show(user.UserId))
-}

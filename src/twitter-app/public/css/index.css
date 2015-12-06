@@ -86,3 +86,43 @@ body{
   margin-top: 30px;
   color: white;
 }
+
+.post-list{
+  position: relative;
+  height: 700px;
+  margin: 0px;
+  width: 700px;
+  position: absolute;
+  left: 26%;
+}
+.post{
+  position: relative;
+  overflow: hidden;
+  border-bottom: thin solid #eee;
+  border-left: thin solid #eee;
+  border-right: thin solid #eee;
+  padding: 40px;
+  background: #FFF;
+}
+.message{
+  display: inline-block;
+  float: left;
+  font-size: 20px;
+  position: relative;
+}
+.date{
+  display: inline-block;
+  font-size: 12px;    
+  color: gray;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+.likes{
+  display: inline-block;
+  font-size: 12px;    
+  color: gray;
+  position: absolute;
+  bottom: 10%;
+  left: 7%;
+}

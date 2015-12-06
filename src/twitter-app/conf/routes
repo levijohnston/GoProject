@@ -7,6 +7,9 @@ module:jobs
 
 GET     /                                       App.Index
 GET     /users/:id                              App.Show
+//GET     /posts                                  Post.Index
+POST    /login                                  App.Login
+GET     /logout                                 App.Logout
 
 
 # Map static resources from the /app/public folder to the /public path

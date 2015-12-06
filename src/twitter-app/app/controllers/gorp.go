@@ -7,6 +7,8 @@ import (
   r "github.com/revel/revel"
   "github.com/revel/modules/db/app"
   "twitter-app/app/models"
+  "time"
+  "fmt"
 )
 
 var (
@@ -38,16 +40,50 @@ func InitDB() {
       "Likes": 20,
   })
 
+  y := Dbm.AddTable(models.Friend{}).SetKeys(true, "FriendId")
+  setColumnSizes(y, map[string]int{
+      "UserIdOne": 10,
+      "UserIdTwo": 10,
+  })
+
   Dbm.TraceOn("[gorp]", r.INFO)
   Dbm.CreateTables()
 
   bcryptPassword, _ := bcrypt.GenerateFromPassword(
       []byte("demo"), bcrypt.DefaultCost)
   demoUser := &models.User{0, "Levi Johnston", "levigene123", "asdf", bcryptPassword}
+  demoUser2 := &models.User{0, "Zack Peters", "pistol123", "asdf", bcryptPassword}
+  demoUser3 := &models.User{0, "Tim Courtney", "timmy", "asdf", bcryptPassword}
+
+
 
   if err := Dbm.Insert(demoUser); err != nil {
       panic(err)
   }
+  if err := Dbm.Insert(demoUser2); err != nil {
+      panic(err)
+  }
+  if err := Dbm.Insert(demoUser3); err != nil {
+      panic(err)
+  }
+
+  posts := []*models.Post{
+    &models.Post{0, "Hello World", time.Now(), 10, 1, demoUser},
+    &models.Post{0, "Blah bla blah", time.Now(), 0, 1,demoUser},
+    &models.Post{0, "Hello World2", time.Now(), 0, 1,demoUser},
+  }
+  for _, post := range posts {
+    if err := Dbm.Insert(post); err != nil {
+      panic(err)
+    }
+    fmt.Println("User from post = ", post.User)
+  }
+
+    friends := &models.Friend{0, 1, 2}
+    if err := Dbm.Insert(friends); err != nil {
+      panic(err)
+    }
+
 }
 
 type GorpController struct {
