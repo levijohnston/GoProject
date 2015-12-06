@@ -91,9 +91,8 @@ body{
   position: relative;
   height: 700px;
   margin: 0px;
-  width: 700px;
-  position: absolute;
-  left: 26%;
+  width: 600px;
+  left: 28%;
 }
 .post{
   position: relative;
