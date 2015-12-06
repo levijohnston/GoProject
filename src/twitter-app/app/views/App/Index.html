@@ -17,7 +17,11 @@
     <li class="post">
       <div class="message">{{.Message}}</div>
       <div class="date"> {{.Date.Month}} {{.Date.Day}} {{.Date.Year}}</div>
-      <div class="likes">{{.Likes}} Likes</div>
+      {{.PostId}}
+      <form action="{{url "App.LikePost" .PostId}}" method="POST">
+        <div class="likes"> {{.Likes}} Likes</div>
+        <input type="submit" class="btn btn-primary" value="Update Post">
+      </form>
     </li>
   {{end}}
   </ul>

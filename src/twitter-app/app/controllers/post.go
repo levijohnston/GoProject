@@ -13,6 +13,17 @@ type Post struct {
   App
 }
 
+func (c App) loadPostById(id int) *models.Post {
+  h, err := c.Txn.Get(models.Post{}, id)
+  if err != nil {
+    panic(err)
+  }
+  if h == nil {
+    return nil
+  }
+  return h.(*models.Post)
+}
+
 func (c App) SavePost(post models.Post) revel.Result {
   post.User = c.connected()
   user := post.User
@@ -30,4 +41,21 @@ func (c App) SavePost(post models.Post) revel.Result {
     panic(err)
   } 
   return c.Redirect(routes.App.Show(user.UserId))
+}
+
+func (c App) LikePost(postId int) revel.Result {
+  post := c.loadPostById(postId)
+
+  likes := post.Likes
+
+  likes = likes + 1
+  post.Likes = likes
+    fmt.Println("Number of likes ", post.Likes)
+
+  //fmt.Println("LIKES ", post.Likes)
+  _, err := c.Txn.Update(post)
+  if err != nil {
+    panic(err)
+  }
+  return c.Redirect(routes.App.Index())
 }
