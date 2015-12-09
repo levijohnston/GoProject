@@ -24,10 +24,6 @@ func (p Post) getUser() string {
   return p.User.Name
 }
 
-//func (b Booking) Total() int {
- // return b.Hotel.Price * b.Nights()
-//}
-
 
 func (p *Post) PreInsert(_ gorp.SqlExecutor) error {
   p.UserId = p.User.UserId
@@ -36,4 +32,19 @@ func (p *Post) PreInsert(_ gorp.SqlExecutor) error {
 
 func (post Post) Validate(v *revel.Validation) {
   v.Required(post.User)
+}
+
+func (b *Post) PostGet(exe gorp.SqlExecutor) error {
+  var (
+    obj interface{}
+    err error
+  )
+
+  obj, err = exe.Get(User{}, b.UserId)
+  if err != nil {
+    return fmt.Errorf("Error loading a booking's user (%d): %s", b.UserId, err)
+  }
+  b.User = obj.(*User)
+
+  return nil
 }

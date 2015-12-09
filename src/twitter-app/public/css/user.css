@@ -3,7 +3,7 @@
   position: absolute;
   left: 28%;
 }
-.main form{   
+.main > form{   
   position: relative;
   padding-left: 70px;
   border: thin solid #eee;

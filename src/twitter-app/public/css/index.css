@@ -92,7 +92,7 @@ body{
   height: 700px;
   margin: 0px;
   width: 600px;
-  left: 28%;
+  /*left: 28%;*/
 }
 .post{
   position: relative;
@@ -108,6 +108,7 @@ body{
   float: left;
   font-size: 20px;
   position: relative;
+  padding-bottom: 25px;
 }
 .date{
   display: inline-block;
@@ -124,4 +125,7 @@ body{
   position: absolute;
   bottom: 10%;
   left: 7%;
+}
+.btn{
+  margin-right: 10px;
 }

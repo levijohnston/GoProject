@@ -96,7 +96,6 @@ func (c App) Show(id int) revel.Result {
   post1, err := c.Txn.Select(models.Post{}, `select * from Post where PostId = 1`)
 
   fmt.Println("Post user = ", post1)
-  //post1.String()
 
   if err != nil {
     panic(err)

@@ -15,12 +15,11 @@
   <ul class="post-list">
   {{range .posts}}
     <li class="post">
+      <div class="">{{ .User.Username }}</div>
       <div class="message">{{.Message}}</div>
       <div class="date"> {{.Date.Month}} {{.Date.Day}} {{.Date.Year}}</div>
-      {{.PostId}}
       <form action="{{url "App.LikePost" .PostId}}" method="POST">
-        <div class="likes"> {{.Likes}} Likes</div>
-        <input type="submit" class="btn btn-primary" value="Update Post">
+        <div class="likes"><input type="submit" class="btn btn-primary" value="Like"> {{.Likes}} Likes </div>
       </form>
     </li>
   {{end}}
