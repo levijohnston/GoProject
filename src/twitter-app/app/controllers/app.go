@@ -58,11 +58,33 @@ func (c App) Index() revel.Result {
     "AND p.UserId = f.UserIdOne OR p.UserId = f.UserIdTwo " +
     "ORDER BY PostId DESC"
     results, err := c.Txn.Select(models.Post{}, query, c.connected().UserId, c.connected().UserId)
-    fmt.Println("Connect user = ", c.connected().UserId,)
+
+
+   
+
+    
 
     if err != nil {
         panic(err)
     }
+     query2 := "SELECT * from Friend f Where f.UserIdTwo = ? OR f.UserIdOne = ?"
+
+    results2, err := c.Txn.Select(models.Friend{}, query2, c.connected().UserId, c.connected().UserId)
+    fmt.Println("Connected user ", c.connected())
+    if err != nil {
+        panic(err)
+    }
+    if results2 == nil{
+      fmt.Println("No friends")
+    }
+     for _, r := range results2 {
+      b := r.(*models.Friend)
+      fmt.Println("Friends 1",  c.loadUserById(b.UserIdOne))
+      fmt.Println("Friends 2", c.loadUserById(b.UserIdTwo))
+      fmt.Println("Are friends? ", b.AreFriends)
+
+     }
+
 
     var posts []*models.Post
     for _, r := range results {

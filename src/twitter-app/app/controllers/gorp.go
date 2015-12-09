@@ -44,6 +44,7 @@ func InitDB() {
   setColumnSizes(y, map[string]int{
       "UserIdOne": 10,
       "UserIdTwo": 10,
+      "AreFriends": 1,
   })
 
   Dbm.TraceOn("[gorp]", r.INFO)
@@ -79,7 +80,7 @@ func InitDB() {
     fmt.Println("User from post = ", post.User)
   }
 
-    friends := &models.Friend{0, 1, 2}
+    friends := &models.Friend{0, 1, 2, true}
     if err := Dbm.Insert(friends); err != nil {
       panic(err)
     }

@@ -10,5 +10,6 @@ import (
 type Friend struct {
   FriendId         int
   UserIdOne        int
-  UserIdTwo        int   
+  UserIdTwo        int 
+  AreFriends       bool  
 }
