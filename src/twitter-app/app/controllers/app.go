@@ -56,45 +56,13 @@ func (c App) Index() revel.Result {
     query := "SELECT p. * " +
     "FROM Post p, Friend f " +
     "WHERE f.UserIdOne = ? AND p.UserId = f.UserIdTwo " + " AND f.AreFriends = ? " +
-    "OR f.UserIdTwo = ? AND p.UserId = f.UserIdOne " +  
-    "AND f.AreFriends = ? " +
+    "OR f.UserIdTwo = ? AND p.UserId = f.UserIdOne " +  "AND f.AreFriends = ? " + 
+   // "OR p.UserId = ? " +
     "ORDER BY PostId DESC"
-    results, err := c.Txn.Select(models.Post{}, query, user.UserId, true, user.UserId, true)
+    results, err := c.Txn.Select(models.Post{}, query, user.UserId, true, user.UserId, true, user.UserId)
     if err != nil {
         panic(err)
     }
-
-    
-
-    query2 := "SELECT * from Friend f Where f.UserIdTwo = ? OR f.UserIdOne = ?"
-
-    results2, err := c.Txn.Select(models.Friend{}, query2, user.UserId, user.UserId)
-    fmt.Println("Connected user ", user)
-    if err != nil {
-        panic(err)
-    }
-    if results2 == nil{
-      fmt.Println("No friends")
-    }
-     /*for _, r := range results2 {
-      b := r.(*models.Friend)
-      if c.connected() !=  c.loadUserById(b.UserIdOne){
-        query3 := "SELECT * from Post WHERE PostId = ?"
-        results3, err := c.Txn.Select(models.Post{}, query3, b.UserIdOne)
-        return results3
-      }
-      else if c.connected() !=  c.loadUserById(b.UserIdTwo){
-        query3 := "SELECT * from Post WHERE PostId = ?"
-        results3, err := c.Txn.Select(models.Post{}, query3, b.UserIdTwo)
-        return results3
-      }
-
-
-      fmt.Println("Friends 1",  c.loadUserById(b.UserIdOne))
-      fmt.Println("Friends 2", c.loadUserById(b.UserIdTwo))
-      fmt.Println("Are friends? ", b.AreFriends)
-     }*/
-
 
     var posts []*models.Post
     for _, r := range results {

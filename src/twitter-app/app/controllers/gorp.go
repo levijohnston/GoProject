@@ -69,9 +69,12 @@ func InitDB() {
   }
 
   posts := []*models.Post{
-    &models.Post{0, "Hello World", time.Now(), 10, 1, demoUser},
-    &models.Post{0, "Blah bla blah", time.Now(), 0, 1,demoUser},
-    &models.Post{0, "Hello World2", time.Now(), 0, 1,demoUser},
+    &models.Post{0, "Hello World this post is by levi", time.Now(), 3, 1, demoUser},
+    &models.Post{0, "Levi's status update", time.Now(), 0, 1,demoUser},
+    &models.Post{0, "Hello World", time.Now(), 0, 1, demoUser},
+    &models.Post{0, "Post by Zack", time.Now(), 0, 1, demoUser2},
+    &models.Post{0, "Post by Tim only visible to him and Zack", time.Now(), 0, 1, demoUser3},
+
   }
   for _, post := range posts {
     if err := Dbm.Insert(post); err != nil {
@@ -82,6 +85,11 @@ func InitDB() {
 
     friends := &models.Friend{0, 1, 2, true}
     if err := Dbm.Insert(friends); err != nil {
+      panic(err)
+    }
+
+    friends2 := &models.Friend{0, 2, 3, true}
+    if err := Dbm.Insert(friends2); err != nil {
       panic(err)
     }
 
