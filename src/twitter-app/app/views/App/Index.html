@@ -1,13 +1,5 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
-  
-<div>
-  <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
-  </div>
-</div>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,10 +8,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/index.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <style>    
-    /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
       color: white;
@@ -147,6 +139,7 @@
         <button class="btn btn-primary">Info</button>
       </div> !-->
       <div class="well">
+        {{.friends}} Friends
       </div>
       <div class="well">
       </div>

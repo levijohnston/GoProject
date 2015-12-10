@@ -13,18 +13,12 @@ type Post struct {
   Date            time.Time
   Likes           int
   UserId          int
+
+  //Transient
   User            *User
 }
 
-func (p *Post) String() string {
-  return fmt.Sprintf("Post(%s)", p.User)
-}
-
-func (p Post) getUser() string {
-  return p.User.Name
-}
-
-
+//Called before post is inserted
 func (p *Post) PreInsert(_ gorp.SqlExecutor) error {
   p.UserId = p.User.UserId
   return nil
@@ -34,17 +28,16 @@ func (post Post) Validate(v *revel.Validation) {
   v.Required(post.User)
 }
 
-func (b *Post) PostGet(exe gorp.SqlExecutor) error {
+//Called after select statement
+func (b *Post) PostGet(s gorp.SqlExecutor) error {
   var (
     obj interface{}
     err error
   )
-
-  obj, err = exe.Get(User{}, b.UserId)
+  obj, err = s.Get(User{}, b.UserId)
   if err != nil {
-    return fmt.Errorf("Error loading a booking's user (%d): %s", b.UserId, err)
+    return fmt.Errorf("Error post's user does not exist (%d): %s", b.UserId, err)
   }
   b.User = obj.(*User)
-
   return nil
 }

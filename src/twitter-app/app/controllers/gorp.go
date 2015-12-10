@@ -57,6 +57,7 @@ func InitDB() {
   demoUser := &models.User{0, "Levi Johnston", "levigene123", "demo", "Hi my name is Levi Johnston. I am a senior at Chapman University and I am studing computer science.", "/public/img/avatar3.jpg", bcryptPassword}
   demoUser2 := &models.User{0, "Zack Peters", "pistol123","demo",  " Blah blah", "/public/img/avatar.png", bcryptPassword}
   demoUser3 := &models.User{0, "Tim Courtney", "timmy", "demo", " Blah blah", "/public/img/avatar2.jpg", bcryptPassword}
+  demoUser4 := &models.User{0, "Bob", "bob123", "demo", " Blah blah", "/public/img/avatar2.jpg", bcryptPassword}
 
 
 
@@ -69,6 +70,9 @@ func InitDB() {
   if err := Dbm.Insert(demoUser3); err != nil {
       panic(err)
   }
+   if err := Dbm.Insert(demoUser4); err != nil {
+      panic(err)
+  }
 
   posts := []*models.Post{
     &models.Post{0, "Hello World this post is by levi", time.Now(), 3, 1, demoUser},
@@ -76,6 +80,7 @@ func InitDB() {
     &models.Post{0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", time.Now(), 0, 1, demoUser},
     &models.Post{0, "Post by Zack", time.Now(), 0, 1, demoUser2},
     &models.Post{0, "Post by Tim only visible to him and Zack", time.Now(), 0, 1, demoUser3},
+    &models.Post{0, "Post by Bob only visible to him and Levi", time.Now(), 0, 1, demoUser4},
 
   }
   for _, post := range posts {
@@ -92,6 +97,10 @@ func InitDB() {
 
     friends2 := &models.Friend{0, 2, 3, true}
     if err := Dbm.Insert(friends2); err != nil {
+      panic(err)
+    }
+    friends3 := &models.Friend{0, 1, 4, true}
+    if err := Dbm.Insert(friends3); err != nil {
       panic(err)
     }
 

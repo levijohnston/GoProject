@@ -1,7 +1,6 @@
 package controllers
 
 import (
- // "golang.org/x/crypto/bcrypt"
   "github.com/revel/revel"
   "twitter-app/app/models"
   "twitter-app/app/routes"
@@ -14,14 +13,14 @@ type Post struct {
 }
 
 func (c App) loadPostById(id int) *models.Post {
-  h, err := c.Txn.Get(models.Post{}, id)
+  post, err := c.Txn.Get(models.Post{}, id)
   if err != nil {
     panic(err)
   }
-  if h == nil {
+  if post == nil {
     return nil
   }
-  return h.(*models.Post)
+  return post.(*models.Post)
 }
 
 func (c App) SavePost(post models.Post) revel.Result {
@@ -52,7 +51,6 @@ func (c App) LikePost(postId int) revel.Result {
   post.Likes = likes
     fmt.Println("Number of likes ", post.Likes)
 
-  //fmt.Println("LIKES ", post.Likes)
   _, err := c.Txn.Update(post)
   if err != nil {
     panic(err)

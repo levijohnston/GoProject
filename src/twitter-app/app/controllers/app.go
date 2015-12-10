@@ -6,7 +6,6 @@ import (
   "twitter-app/app/models"
   "twitter-app/app/routes"
   "fmt"
-  //"time"
 )
 
 type App struct {
@@ -63,13 +62,16 @@ func (c App) Index() revel.Result {
     if err != nil {
         panic(err)
     }
-
     var posts []*models.Post
     for _, r := range results {
-      b := r.(*models.Post)
-      posts = append(posts, b)
+      p := r.(*models.Post)
+      posts = append(posts, p)
     }
-    return c.Render(user, posts)
+
+    query2 := "SELECT COUNT(*) FROM Friend f WHERE f.UserIdOne = ? OR f.UserIdTwo = ?"
+    friends, err := c.Txn.SelectInt(query2, user.UserId, user.UserId)
+
+    return c.Render(user, posts, friends)
   }
   return c.Render()
 }
@@ -85,7 +87,6 @@ func (c App) loadUserById(id int) *models.User {
   return h.(*models.User)
 }
 
-
 func (c App) Show(id int) revel.Result {
   user := c.loadUserById(id)
   if user == nil {
@@ -93,10 +94,6 @@ func (c App) Show(id int) revel.Result {
   }
   title := user.Name
   results, err := c.Txn.Select(models.Post{}, `select * from Post where UserId = ? ORDER BY PostId DESC `, c.connected().UserId)
-  post1, err := c.Txn.Select(models.Post{}, `select * from Post where PostId = 1`)
-
-  fmt.Println("Post user = ", post1)
-
   if err != nil {
     panic(err)
   }
@@ -107,10 +104,8 @@ func (c App) Show(id int) revel.Result {
     posts = append(posts, b)
     fmt.Println("Post user = ", b.User)
   }
-
   return c.Render(title, user, posts)
 }
-
 
 func (c App) Register() revel.Result {
   return c.Render()
@@ -124,11 +119,9 @@ func (c App) SaveUser(user models.User, passwordConfirmation string) revel.Resul
   user.Validate(c.Validation)
 
   if c.Validation.HasErrors() {
-      fmt.Println("User errors ")
-
     c.Validation.Keep()
     c.FlashParams()
-    return c.Redirect(routes.App.Index())
+    return c.Redirect(routes.App.Register())
   }
 
   user.HashedPassword, _ = bcrypt.GenerateFromPassword(
@@ -144,20 +137,8 @@ func (c App) SaveUser(user models.User, passwordConfirmation string) revel.Resul
 }
 
 func (c App) Login(username, password string, remember bool) revel.Result {
-  fmt.Println("Input: ", username)
   user := c.getUser(username)
   fmt.Println("User: ", user)
-
-  users, _ := c.Txn.Select(models.User{}, `select * from User`)
-
-
-
-for _, r := range users {
-    b := r.(*models.User)
-    //posts = append(posts, b)
-    fmt.Println("Getting ", b.Username)
-  }
-
 
   if user != nil {
     err := bcrypt.CompareHashAndPassword(user.HashedPassword, []byte(password))
@@ -169,13 +150,12 @@ for _, r := range users {
         c.Session.SetNoExpiration()
       }
       c.Flash.Success("Welcome, " + username)
-      return c.Redirect(routes.App.Show(user.UserId))
+      return c.Redirect(routes.App.Index())
     }
   }
-
   c.Flash.Out["username"] = username
   c.Flash.Error("Invalid username and password")
-  return c.Redirect(routes.App.Index())
+  return c.Redirect(routes.App.Register())
 }
 
 func (c App) Logout() revel.Result {
@@ -184,4 +164,3 @@ func (c App) Logout() revel.Result {
   }
   return c.Redirect(routes.App.Register())
 }
-
