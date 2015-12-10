@@ -71,7 +71,7 @@ func InitDB() {
   posts := []*models.Post{
     &models.Post{0, "Hello World this post is by levi", time.Now(), 3, 1, demoUser},
     &models.Post{0, "Levi's status update", time.Now(), 0, 1,demoUser},
-    &models.Post{0, "Hello World", time.Now(), 0, 1, demoUser},
+    &models.Post{0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", time.Now(), 0, 1, demoUser},
     &models.Post{0, "Post by Zack", time.Now(), 0, 1, demoUser2},
     &models.Post{0, "Post by Tim only visible to him and Zack", time.Now(), 0, 1, demoUser3},
 

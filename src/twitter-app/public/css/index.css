@@ -3,6 +3,38 @@ body{
 
 }
 
+textarea{
+  width: 393px;
+  font-size: 16px;
+  height: 100px;
+  resize: none;
+  left: 15%;
+  position: relative;
+}
+
+.buttons{
+  left: 15%;
+  position: relative;
+
+}
+
+.btn-sm{
+  position: absolute;
+  left: 5%;
+  bottom: 19%;
+}
+
+.well{
+  position: relative;
+}
+
+.well > .message{
+  padding: 20px;
+  width: 419px;
+  text-align: left;
+  font-size: 18px;
+}
+
 .button{
 	background: none;
   border: thin solid #0077B3;
@@ -103,19 +135,19 @@ body{
   padding: 40px;
   background: #FFF;
 }
-.message{
+/*.message{
   display: inline-block;
   float: left;
   font-size: 20px;
   position: relative;
   padding-bottom: 25px;
-}
+}*/
 .date{
   display: inline-block;
   font-size: 12px;    
   color: gray;
   position: absolute;
-  right: 10px;
+  right: 33px
   top: 5px;
 }
 .likes{

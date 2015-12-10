@@ -57,7 +57,7 @@ func (c App) Index() revel.Result {
     "FROM Post p, Friend f " +
     "WHERE f.UserIdOne = ? AND p.UserId = f.UserIdTwo " + " AND f.AreFriends = ? " +
     "OR f.UserIdTwo = ? AND p.UserId = f.UserIdOne " +  "AND f.AreFriends = ? " + 
-   // "OR p.UserId = ? " +
+    "OR p.UserId = ? " +
     "ORDER BY PostId DESC"
     results, err := c.Txn.Select(models.Post{}, query, user.UserId, true, user.UserId, true, user.UserId)
     if err != nil {
@@ -69,7 +69,7 @@ func (c App) Index() revel.Result {
       b := r.(*models.Post)
       posts = append(posts, b)
     }
-    return c.Render(posts)
+    return c.Render(user, posts)
   }
   return c.Render()
 }

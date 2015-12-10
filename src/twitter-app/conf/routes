@@ -5,11 +5,12 @@
 module:testrunner
 module:jobs
 
-GET     /                                       App.Index
+GET     /                                       App.Register
+GET     /users                                  App.Index
 GET     /users/:id                              App.Show
 POST    /login                                  App.Login
 GET     /logout                                 App.Logout
-//#POST    /posts/:id                              Post.LikePost
+//#POST    /posts/:id                           Post.LikePost
 
 
 # Map static resources from the /app/public folder to the /public path
