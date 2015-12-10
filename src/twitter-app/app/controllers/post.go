@@ -29,7 +29,7 @@ func (c App) SavePost(post models.Post) revel.Result {
   user := post.User
   post.UserId = user.UserId
   post.Date = time.Now()
-  post.Likes = 20
+  post.Likes = 0
   post.Validate(c.Validation)
 
   fmt.Println("Inserted into ID ", post)

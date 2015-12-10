@@ -10,6 +10,8 @@ type User struct {
   UserId             int
   Name               string
   Username, Password string
+  Bio                string
+  Avatar             string
   HashedPassword     []byte
 }
 

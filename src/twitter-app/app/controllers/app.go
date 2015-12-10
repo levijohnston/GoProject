@@ -182,6 +182,6 @@ func (c App) Logout() revel.Result {
   for k := range c.Session {
     delete(c.Session, k)
   }
-  return c.Redirect(routes.App.Index())
+  return c.Redirect(routes.App.Register())
 }
 

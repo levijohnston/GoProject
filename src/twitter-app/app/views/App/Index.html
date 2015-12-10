@@ -43,6 +43,7 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Home</a></li>
         <li><a href="{{url "App.Show" .user.UserId}}">My Page</a></li>
+        <li><a href="{{url "App.Logout"}}">Logout</a></li>
       </ul>
       <form class="navbar-form navbar-right" role="search">
         <div class="form-group input-group">
@@ -63,9 +64,14 @@
     <div class="col-sm-3 well">
       <div class="well">
         <p><a href="#">{{ .user.Username }}</a></p>
-          <img src="/public/img/avatar.png" type="image/png" class="img-circle" height="55" width="55" alt="Avatar">
+          <img src= {{.user.Avatar}} type="image/png" class="img-circle" height="55" width="55" alt="Avatar">
       </div>
       <div class="well">
+        <p>
+          {{.user.Bio}}
+
+
+        </p>
        <!-- <p><a href="#">Interests</a></p>
         <p>
           <span class="label label-default">News</span>
@@ -90,15 +96,15 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="panel panel-default text-left">
-            <div class="panel-body">
+            <div class="panel-body" style="padding: 0px;">
              <form action="{{url "App.SavePost"}}" method="POST">
                 {{with $field := field "post.Message" .}}
                   <p class="post-field">
-                    <textarea placeholder="Submit a new post" name="{{$field.Name}}" size="160" value="{{$field.Flash}}"> </textarea>
+                    <textarea placeholder="Submit a new post..." name="{{$field.Name}}" size="160" value="{{$field.Flash}}"></textarea>
                   </p>
                 {{end}}
                 <p class="buttons">
-                  <input type="submit" value="Submit" name="Submit">
+                  <input type="submit" value="Post" name="Submit">
                 </p>
               </form>   
             </div>
@@ -111,7 +117,7 @@
           <div class="col-sm-3">
             <div class="well">
              <p>{{ .User.Username }}</p>
-             <img src="bird.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+             <img src={{.User.Avatar}} class="img-circle" height="55" width="55" alt="Avatar">
             </div>
           </div>
           <div class="col-sm-9">
@@ -120,7 +126,6 @@
               <div class="date"> {{.Date.Month}} {{.Date.Day}} {{.Date.Year}}</div>
               <form action="{{url "App.LikePost" .PostId}}" method="POST">
                 <div type="button" class="btn btn-default btn-sm">
-
                 <span class="glyphicon glyphicon-thumbs-up"><input type="submit" style="background: none; border:none;" value="Like"></span> 
                 </div>
               </form>
@@ -142,17 +147,14 @@
         <button class="btn btn-primary">Info</button>
       </div> !-->
       <div class="well">
-        <p>ADS</p>
       </div>
       <div class="well">
-        <p>ADS</p>
       </div>
     </div>
   </div>
 </div>
 
 <footer class="container-fluid text-center">
-  <p>Footer Text</p>
 </footer>
 
 </body>

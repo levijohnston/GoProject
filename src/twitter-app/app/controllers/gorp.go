@@ -30,6 +30,8 @@ func InitDB() {
   setColumnSizes(t, map[string]int{
       "Username": 20,
       "Name":     100,
+      "Bio":      300,
+      "Avatar":   20,
   })
 
  t = Dbm.AddTable(models.Post{}).SetKeys(true, "PostId")
@@ -52,9 +54,9 @@ func InitDB() {
 
   bcryptPassword, _ := bcrypt.GenerateFromPassword(
       []byte("demo"), bcrypt.DefaultCost)
-  demoUser := &models.User{0, "Levi Johnston", "levigene123", "asdf", bcryptPassword}
-  demoUser2 := &models.User{0, "Zack Peters", "pistol123", "asdf", bcryptPassword}
-  demoUser3 := &models.User{0, "Tim Courtney", "timmy", "asdf", bcryptPassword}
+  demoUser := &models.User{0, "Levi Johnston", "levigene123", "demo", "Hi my name is Levi Johnston. I am a senior at Chapman University and I am studing computer science.", "/public/img/avatar3.jpg", bcryptPassword}
+  demoUser2 := &models.User{0, "Zack Peters", "pistol123","demo",  " Blah blah", "/public/img/avatar.png", bcryptPassword}
+  demoUser3 := &models.User{0, "Tim Courtney", "timmy", "demo", " Blah blah", "/public/img/avatar2.jpg", bcryptPassword}
 
 
 
