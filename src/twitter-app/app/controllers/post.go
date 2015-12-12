@@ -39,7 +39,7 @@ func (c App) SavePost(post models.Post) revel.Result {
   if err != nil {
     panic(err)
   } 
-  return c.Redirect(routes.App.Show(user.UserId))
+  return c.Redirect(routes.App.Index())
 }
 
 func (c App) LikePost(postId int) revel.Result {
@@ -49,7 +49,7 @@ func (c App) LikePost(postId int) revel.Result {
 
   likes = likes + 1
   post.Likes = likes
-    fmt.Println("Number of likes ", post.Likes)
+  fmt.Println("Number of likes ", post.Likes)
 
   _, err := c.Txn.Update(post)
   if err != nil {

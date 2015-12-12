@@ -55,11 +55,9 @@ func InitDB() {
   bcryptPassword, _ := bcrypt.GenerateFromPassword(
       []byte("demo"), bcrypt.DefaultCost)
   demoUser := &models.User{0, "Levi Johnston", "levigene123", "demo", "Hi my name is Levi Johnston. I am a senior at Chapman University and I am studing computer science.", "/public/img/avatar3.jpg", bcryptPassword}
-  demoUser2 := &models.User{0, "Zack Peters", "pistol123","demo",  " Blah blah", "/public/img/avatar.png", bcryptPassword}
-  demoUser3 := &models.User{0, "Tim Courtney", "timmy", "demo", " Blah blah", "/public/img/avatar2.jpg", bcryptPassword}
+  demoUser2 := &models.User{0, "John ", "john123","demo",  " Blah blah", "/public/img/avatar.png", bcryptPassword}
+  demoUser3 := &models.User{0, "Mary", "mary123", "demo", " Blah blah", "/public/img/avatar2.jpg", bcryptPassword}
   demoUser4 := &models.User{0, "Bob", "bob123", "demo", " Blah blah", "/public/img/avatar2.jpg", bcryptPassword}
-
-
 
   if err := Dbm.Insert(demoUser); err != nil {
       panic(err)
@@ -78,8 +76,8 @@ func InitDB() {
     &models.Post{0, "Hello World this post is by levi", time.Now(), 3, 1, demoUser},
     &models.Post{0, "Levi's status update", time.Now(), 0, 1,demoUser},
     &models.Post{0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua", time.Now(), 0, 1, demoUser},
-    &models.Post{0, "Post by Zack", time.Now(), 0, 1, demoUser2},
-    &models.Post{0, "Post by Tim only visible to him and Zack", time.Now(), 0, 1, demoUser3},
+    &models.Post{0, "Post by John", time.Now(), 0, 1, demoUser2},
+    &models.Post{0, "Post by Mary only visible to her and John", time.Now(), 0, 1, demoUser3},
     &models.Post{0, "Post by Bob only visible to him and Levi", time.Now(), 0, 1, demoUser4},
 
   }
@@ -89,7 +87,6 @@ func InitDB() {
     }
     fmt.Println("User from post = ", post.User)
   }
-
     friends := &models.Friend{0, 1, 2, true}
     if err := Dbm.Insert(friends); err != nil {
       panic(err)
@@ -103,7 +100,6 @@ func InitDB() {
     if err := Dbm.Insert(friends3); err != nil {
       panic(err)
     }
-
 }
 
 type GorpController struct {
