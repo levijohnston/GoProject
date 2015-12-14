@@ -6,6 +6,7 @@ import (
   "twitter-app/app/models"
   "twitter-app/app/routes"
   "fmt"
+  "math/rand"
 )
 
 type App struct {
@@ -104,7 +105,12 @@ func (c App) Show(id int) revel.Result {
     posts = append(posts, b)
     fmt.Println("Post user = ", b.User)
   }
-  return c.Render(title, user, posts)
+  sessionId := c.getUser(c.Session["user"]).UserId
+  if sessionId == user.UserId{
+    return c.Render(title, user, posts)
+  }
+
+  return c.Render(title, user, posts, sessionId)
 }
 
 func (c App) Register() revel.Result {
@@ -126,6 +132,9 @@ func (c App) SaveUser(user models.User, passwordConfirmation string) revel.Resul
 
   user.HashedPassword, _ = bcrypt.GenerateFromPassword(
     []byte(user.Password), bcrypt.DefaultCost)
+  avatars := [3]string {"/public/img/avatar.png", "/public/img/avatar2.jpg", "/public/img/avatar3.jpg"}
+  random := rand.Intn(3)
+  user.Avatar = avatars[random]
   err := c.Txn.Insert(&user)
   if err != nil {
     panic(err)
@@ -134,6 +143,19 @@ func (c App) SaveUser(user models.User, passwordConfirmation string) revel.Resul
   c.Session["user"] = user.Username
   c.Flash.Success("Welcome, " + user.Name)
   return c.Redirect(routes.App.Show(user.UserId))
+}
+
+func (c App) UpdateBio(userId int, bio string) revel.Result {
+
+  user := c.loadUserById(userId)
+
+  user.Bio = bio
+
+  _, err := c.Txn.Update(user)
+  if err != nil {
+    panic(err)
+  }
+  return c.Redirect(routes.App.Show(userId))
 }
 
 func (c App) Login(username, password string, remember bool) revel.Result {

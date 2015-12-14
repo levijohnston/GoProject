@@ -34,26 +34,22 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="{{url "App.Index"}}">Home</a></li>
-        <li class="active"><a href="">My Page</a></li>
+
+        {{if .sessionId}}
+          <li><a href="{{url "App.Show" .sessionId}}">My Page</a></li>
+        {{else}}
+          <li class="active"><a href="">My Page</a></li>
+        {{end}}
+
         <li><a href="{{url "App.Logout"}}">Logout</a></li>
       </ul>
       <form class="navbar-form navbar-right" role="search">
-        <div class="form-group input-group">
-          <input type="text" class="form-control" placeholder="Search..">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button">
-              <span class="glyphicon glyphicon-search"></span>
-            </button>
-          </span>        
+        <div class="form-group input-group">     
         </div>
       </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
-      </ul>
     </div>
   </div>
 </nav>
-  
   
 <div class="container text-center">    
   <div class="row">
@@ -65,7 +61,20 @@
       </div>
       <div class="well">
         <p>
-          {{.user.Bio}}
+          {{if .sessionId}}
+            {{.user.Bio}}
+          {{else}}
+           <form action="{{url "App.UpdateBio" .user.UserId }}" method="POST">
+              {{with $field := field "bio" .}}
+                <p >
+                  <textarea placeholder="Update Bio Here..." name="{{$field.Name}}" size="160" value="{{$field.Flash}}"></textarea>
+                </p>
+              {{end}}
+              <p class="buttons">
+                <input type="submit" value="Update" name="Submit">
+              </p>
+            </form>   
+          {{end}}
         </p>
       </div>
     </div>
@@ -80,7 +89,7 @@
                     <textarea placeholder="Submit a new post..." name="{{$field.Name}}" size="160" value="{{$field.Flash}}"></textarea>
                   </p>
                 {{end}}
-                <p class="buttons">
+                <p class="buttons post-button">
                   <input type="submit" value="Post" name="Submit">
                 </p>
               </form>   
@@ -89,6 +98,7 @@
         </div>
       </div>
       {{$page := .user.UserId}}
+
       {{range .posts}}
         <div class="row">
           <div class="col-sm-3">
@@ -111,11 +121,6 @@
           </div>
         </div>
       {{end}}
-    </div>
-    <div class="col-sm-2 well">
-      <div class="well">
-        {{.friends}} Friends
-      </div>
     </div>
   </div>
 </div>

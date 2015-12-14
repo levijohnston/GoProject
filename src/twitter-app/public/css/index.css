@@ -1,4 +1,4 @@
-textarea{
+.post-field > textarea{
   width: 393px;
   font-size: 16px;
   height: 100px;
@@ -6,11 +6,17 @@ textarea{
   left: 15%;
   position: relative;
 }
+textarea{
+  resize: none;
+}
 
-.buttons{
+.panel-body > .buttons{
   left: 15%;
   position: relative;
+}
 
+.post-button{
+  margin-left: 145px;
 }
 
 .btn-sm{
@@ -157,5 +163,4 @@ textarea{
   width: 160px;
   color: #FFF;
   border-radius: 4px;
-  margin-left: 145px;
 }

@@ -59,5 +59,4 @@ func (c App) LikePost(postId int, page int) revel.Result {
     return c.Redirect(routes.App.Index())
   }
   return c.Redirect(routes.App.Show(page))
-
 }
