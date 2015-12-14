@@ -42,7 +42,7 @@ func (c App) SavePost(post models.Post) revel.Result {
   return c.Redirect(routes.App.Index())
 }
 
-func (c App) LikePost(postId int) revel.Result {
+func (c App) LikePost(postId int, page int) revel.Result {
   post := c.loadPostById(postId)
 
   likes := post.Likes
@@ -55,5 +55,9 @@ func (c App) LikePost(postId int) revel.Result {
   if err != nil {
     panic(err)
   }
-  return c.Redirect(routes.App.Index())
+  if page == 0{
+    return c.Redirect(routes.App.Index())
+  }
+  return c.Redirect(routes.App.Show(page))
+
 }

@@ -6,6 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/public/css/index.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <style>    
@@ -33,7 +34,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="{{url "App.Index"}}">Home</a></li>
-        <li class="active"><a href="#">My Page</a></li>
+        <li class="active"><a href="">My Page</a></li>
         <li><a href="{{url "App.Logout"}}">Logout</a></li>
       </ul>
       <form class="navbar-form navbar-right" role="search">
@@ -53,97 +54,73 @@
   </div>
 </nav>
   
+  
 <div class="container text-center">    
   <div class="row">
     <div class="col-sm-3 well">
       <div class="well">
-        <p><a href="#">{{.user.Username}}</a></p>
-        <img src="bird.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+
+        <p><a href="#">{{ .user.Username }}</a></p>
+          <img src= {{.user.Avatar}} type="image/png" class="img-circle" height="55" width="55" alt="Avatar">
       </div>
       <div class="well">
-        <p><a href="#">Interests</a></p>
         <p>
-          <span class="label label-default">News</span>
-          <span class="label label-primary">W3Schools</span>
-          <span class="label label-success">Labels</span>
-          <span class="label label-info">Football</span>
-          <span class="label label-warning">Gaming</span>
-          <span class="label label-danger">Friends</span>
+          {{.user.Bio}}
         </p>
       </div>
-      <div class="alert alert-success fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-        <p><strong>Ey!</strong></p>
-        People are looking at your profile. Find out who.
-      </div>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
     </div>
-    <div class="col-sm-7">
-    
+    <div class="col-sm-7">    
       <div class="row">
         <div class="col-sm-12">
           <div class="panel panel-default text-left">
-            <div class="panel-body">
-               <form action="{{url "App.SavePost"}}" method="POST">
+            <div class="panel-body" style="padding: 0px;">
+             <form action="{{url "App.SavePost"}}" method="POST">
                 {{with $field := field "post.Message" .}}
                   <p class="post-field">
-                    <textarea placeholder="Submit a new post" name="{{$field.Name}}" size="160" value="{{$field.Flash}}"> </textarea>
+                    <textarea placeholder="Submit a new post..." name="{{$field.Name}}" size="160" value="{{$field.Flash}}"></textarea>
                   </p>
                 {{end}}
                 <p class="buttons">
-                  <input type="submit" value="Submit" name="Submit">
+                  <input type="submit" value="Post" name="Submit">
                 </p>
-              </form>
-              <button type="button" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-thumbs-up"></span> Like
-              </button>     
+              </form>   
             </div>
           </div>
         </div>
       </div>
-
+      {{$page := .user.UserId}}
       {{range .posts}}
         <div class="row">
           <div class="col-sm-3">
             <div class="well">
              <p>{{ .User.Username }}</p>
-             <img src="bird.jpg" class="img-circle" height="55" width="55" alt="Avatar">
+             <img src={{.User.Avatar}} class="img-circle" height="55" width="55" alt="Avatar">
             </div>
           </div>
           <div class="col-sm-9">
             <div class="well">
+              <p class="message">{{.Message}}</p>
               <div class="date"> {{.Date.Month}} {{.Date.Day}} {{.Date.Year}}</div>
-              <div class="likes">{{.Likes}} Likes</div>
-              <p>{{.Message}}</p>
+              <form action="{{url "App.LikePost" .PostId $page}}" method="POST">
+                <div type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-thumbs-up"><input type="submit" style="background: none; border:none;" value="Like"></span> 
+                </div>
+              </form>
+               {{.Likes}} Likes 
             </div>
           </div>
         </div>
       {{end}}
-      
-      </div>     
     </div>
     <div class="col-sm-2 well">
-      <div class="thumbnail">
-        <p>Upcoming Events:</p>
-        <img src="paris.jpg" alt="Paris" width="400" height="300">
-        <p><strong>Paris</strong></p>
-        <p>Fri. 27 November 2015</p>
-        <button class="btn btn-primary">Info</button>
-      </div>      
       <div class="well">
-        <p>ADS</p>
-      </div>
-      <div class="well">
-        <p>ADS</p>
+        {{.friends}} Friends
       </div>
     </div>
   </div>
 </div>
 
 <footer class="container-fluid text-center">
-  <p>Footer Text</p>
 </footer>
 
 </body>

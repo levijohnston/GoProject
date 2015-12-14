@@ -14,8 +14,7 @@ type Post struct {
   Likes           int
   UserId          int
 
-  //Transient
-  User            *User
+  User            *User  //Transient
 }
 
 //Called before post is inserted

@@ -62,24 +62,7 @@
         <p>
           {{.user.Bio}}
         </p>
-       <!-- <p><a href="#">Interests</a></p>
-        <p>
-          <span class="label label-default">News</span>
-          <span class="label label-primary">W3Schools</span>
-          <span class="label label-success">Labels</span>
-          <span class="label label-info">Football</span>
-          <span class="label label-warning">Gaming</span>
-          <span class="label label-danger">Friends</span>
-        </p> !-->
       </div>
-      <!--<div class="alert alert-success fade in">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-        <p><strong>Ey!</strong></p>
-        People are looking at your profile. Find out who.
-      </div>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>
-      <p><a href="#">Link</a></p>!-->
     </div>
     <div class="col-sm-7">    
       <div class="row">
@@ -113,7 +96,7 @@
             <div class="well">
               <p class="message">{{.Message}}</p>
               <div class="date"> {{.Date.Month}} {{.Date.Day}} {{.Date.Year}}</div>
-              <form action="{{url "App.LikePost" .PostId}}" method="POST">
+              <form action="{{url "App.LikePost" .PostId 0}}" method="POST">
                 <div type="button" class="btn btn-default btn-sm">
                 <span class="glyphicon glyphicon-thumbs-up"><input type="submit" style="background: none; border:none;" value="Like"></span> 
                 </div>
@@ -125,17 +108,8 @@
       {{end}}
     </div>
     <div class="col-sm-2 well">
-      <!--<div class="thumbnail">
-        <p>Upcoming Events:</p>
-        <img src="paris.jpg" alt="Paris" width="400" height="300">
-        <p><strong>Paris</strong></p>
-        <p>Fri. 27 November 2015</p>
-        <button class="btn btn-primary">Info</button>
-      </div> !-->
       <div class="well">
         {{.friends}} Friends
-      </div>
-      <div class="well">
       </div>
     </div>
   </div>

@@ -52,7 +52,7 @@ func (c App) getUser(username string) *models.User {
 func (c App) Index() revel.Result {
   user := c.connected()
   if user != nil {
-    query := "SELECT p. * " +
+    query := "SELECT  DISTINCT p. * " +
     "FROM Post p, Friend f " +
     "WHERE f.UserIdOne = ? AND p.UserId = f.UserIdTwo " + " AND f.AreFriends = ? " +
     "OR f.UserIdTwo = ? AND p.UserId = f.UserIdOne " +  "AND f.AreFriends = ? " + 
