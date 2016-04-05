@@ -1,2 +1,2 @@
 # GoProject
-Twitter-like application written in Go
+Social Media application written in Go that uses the Revel framework.
